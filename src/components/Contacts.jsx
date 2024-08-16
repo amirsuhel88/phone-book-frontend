@@ -3,7 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getContact, setStatus, setError } from "../redux/contactSlice"; // Ensure you have the correct actions
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import NavigationBar from "./NavigationBar";
+// import { Navbar } from "./Navbar";
 
 const Contacts = () => {
   const dispatch = useDispatch();
@@ -11,7 +13,7 @@ const Contacts = () => {
   console.log(contacts);
   const [loading, setLoading] = useState(true);
 
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,36 +41,51 @@ const Contacts = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-danger">{error}</p>;
 
+  const handleClick = () => {
+    navigate("/add-contact"); // Replace '/another-page' with the actual path
+  };
+
   return (
-    <div className="container">
-      <h2>Contacts</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Photo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {contacts.length > 0 ? (
-            contacts.map((contact) => (
-              <tr key={contact.id}>
-                <td>{contact.name}</td>
-                <td>{contact.email}</td>
-                <td>
-                  <img src={contact.photo} alt="" />
-                </td>
-              </tr>
-            ))
-          ) : (
+    <>
+      <NavigationBar />
+      <div className="container">
+        <button onClick={handleClick}>add</button>
+        <h2>Contacts</h2>
+        <table className="table">
+          <thead>
             <tr>
-              <td colSpan="2">No contacts available</td>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Photo</th>
             </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {contacts.length > 0 ? (
+              contacts.map((contact) => (
+                <tr key={contact.id}>
+                  <td>{contact.name}</td>
+                  <td>{contact.phone}</td>
+                  <td>{contact.email}</td>
+                  <td>
+                    <img
+                      src={`http://localhost:5000/uploads/${contact.photo}`}
+                      alt=""
+                      height={80}
+                      width={80}
+                    />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="2">No contacts available</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 

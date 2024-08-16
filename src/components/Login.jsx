@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken, setStatus, setError, loginUser } from "../redux/userSlice";
-import axios from "axios";
 import { Alert, Button, Form, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
