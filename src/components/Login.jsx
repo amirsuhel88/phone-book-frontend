@@ -1,39 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken, setStatus, setError } from "../redux/userSlice";
+import { setToken, setStatus, setError, loginUser } from "../redux/userSlice";
 import axios from "axios";
 import { Alert, Button, Form, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { status, error } = useSelector((state) => state.users);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(setStatus("loading"));
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          username,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      dispatch(setToken(response.data.token));
-      dispatch(setStatus("succeeded"));
-    } catch (error) {
-      dispatch(
-        setError(error.response ? error.response.data.message : "Login failed")
-      );
-      dispatch(setStatus("failed"));
-    }
+    dispatch(loginUser({ username, password }));
+    navigate("/");
   };
 
   return (
