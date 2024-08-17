@@ -44,6 +44,9 @@ const Contacts = () => {
   const handleClick = () => {
     navigate("/add-contact"); // Replace '/another-page' with the actual path
   };
+  const handleEdit = (id) => {
+    navigate(`/edit-contact/${id}`);
+  };
 
   return (
     <>
@@ -75,6 +78,15 @@ const Contacts = () => {
                       width={80}
                     />
                   </td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handleEdit(contact.id)}
+                  >
+                    Edit
+                  </button>
+                  <button className="mx-2 btn btn-danger" variant="danger">
+                    Delete
+                  </button>
                 </tr>
               ))
             ) : (

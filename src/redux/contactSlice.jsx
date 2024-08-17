@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import EditContact from "../components/EditContact";
 
 const contactSlice = createSlice({
   name: "contacts",
@@ -26,8 +27,18 @@ const contactSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    editContact: (state, action) => {
+      const index = state.contacts.findIndex((x) => x.id === action.payload.id);
+      if (index !== -1) {
+        state.contacts[index] = {
+          ...state.contacts[index],
+          ...action.payload,
+        };
+      }
+    },
   },
 });
 
-export const { getContact, setStatus, setError } = contactSlice.actions;
+export const { getContact, setStatus, setError, editContact } =
+  contactSlice.actions;
 export default contactSlice.reducer;
