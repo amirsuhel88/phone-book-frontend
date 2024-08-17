@@ -11,7 +11,7 @@ function NavigationBar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logout()); // Dispatch the logout action
+    dispatch(logout());
     navigate("/login");
   };
 
