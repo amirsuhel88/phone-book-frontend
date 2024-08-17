@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Alert, Button, Form, Container, Col } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import NavigationBar from "./NavigationBar";
 
 function AddContact() {
   const [name, setName] = useState("");
@@ -53,67 +54,74 @@ function AddContact() {
   };
   return (
     <Container>
-      <h2 className="my-4">Add Contact</h2>
-      {error && <Alert variant="danger">{error}</Alert>}{" "}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm="2">
-            Name
-          </Form.Label>
-          <Col sm="10">
-            <Form.Control
-              type="text"
-              placeholder="Enter name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm="2">
-            Phone
-          </Form.Label>
-          <Col sm="10">
-            <Form.Control
-              type="text"
-              placeholder="Enter Phone number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm="2">
-            Email
-          </Form.Label>
-          <Col sm="10">
-            <Form.Control
-              type="text"
-              placeholder="Enter Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column sm="2">
-            Image
-          </Form.Label>
-          <Col sm="10">
-            <Form.Control
-              type="file"
-              accept="image/*"
-              onChange={(e) => setPhoto(e.target.files[0])}
-            />
-          </Col>
-        </Form.Group>
-        <Button variant="primary" type="submit" disabled={status === "loading"}>
-          {status === "loading" ? "Saving..." : "Save"}
-        </Button>
-      </Form>
+      <NavigationBar />
+      <div className="col-6 mx-auto p-4 border border-success">
+        <h2 className="my-4">Add Contact</h2>
+        {error && <Alert variant="danger">{error}</Alert>}{" "}
+        <Form onSubmit={handleSubmit}>
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm="2">
+              Name
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm="2">
+              Phone
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="text"
+                placeholder="Enter Phone number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm="2">
+              Email
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="text"
+                placeholder="Enter Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm="2">
+              Image
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={(e) => setPhoto(e.target.files[0])}
+              />
+            </Col>
+          </Form.Group>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={status === "loading"}
+          >
+            {status === "loading" ? "Saving..." : "Save"}
+          </Button>
+        </Form>
+      </div>
     </Container>
   );
 }

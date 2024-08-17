@@ -22,7 +22,7 @@ const LoginPage = () => {
 
   return (
     <Container>
-      <div className="col-6 mx-auto p-4 border border-danger" id="login_form">
+      <div className="col-6 mx-auto p-4 border border-danger">
         <h2 className="my-4">Login</h2>
         {status === "failed" && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={handleSubmit}>
