@@ -13,8 +13,12 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser({ username, password }));
-    navigate("/");
+    const resultAction = await dispatch(loginUser({ username, password }));
+    if (loginUser.rejected.match(resultAction)) {
+      console.log(resultAction.payload);
+    } else {
+      navigate("/");
+    }
   };
 
   return (
