@@ -28,7 +28,7 @@ function EditContact() {
       formData.append("name", name);
       formData.append("phone", phone);
       formData.append("email", email);
-      if (photo) formData.append("photo", photo);
+      formData.append("photo", photo);
 
       const response = await axios.put(
         "http://localhost:5000/api/contacts/" + id,
@@ -47,7 +47,7 @@ function EditContact() {
           name,
           phone,
           email,
-          // Add any other fields you might need to update
+          photo,
         })
       );
 
@@ -106,7 +106,7 @@ function EditContact() {
             />
           </Col>
         </Form.Group>
-        {/* <Form.Group as={Row} className="mb-3">
+        <Form.Group as={Row} className="mb-3">
           <Form.Label column sm="2">
             Image
           </Form.Label>
@@ -117,7 +117,7 @@ function EditContact() {
               onChange={(e) => setPhoto(e.target.files[0])}
             />
           </Col>
-        </Form.Group> */}
+        </Form.Group>
         <Button variant="primary" type="submit">
           Save
         </Button>
