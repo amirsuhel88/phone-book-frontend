@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getContact, setStatus, setError } from "../redux/contactSlice"; // Ensure you have the correct actions
+import {
+  getContact,
+  setStatus,
+  setError,
+  deleteContact,
+} from "../redux/contactSlice"; // Ensure you have the correct actions
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
 // import { Navbar } from "./Navbar";
@@ -48,6 +53,21 @@ const Contacts = () => {
     navigate(`/edit-contact/${id}`);
   };
 
+  const handleDelete = (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      axios.delete(`http://localhost:5000/api/contacts/${id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(deleteContact({ id }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <NavigationBar />
@@ -78,15 +98,21 @@ const Contacts = () => {
                       width={80}
                     />
                   </td>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => handleEdit(contact.id)}
-                  >
-                    Edit
-                  </button>
-                  <button className="mx-2 btn btn-danger" variant="danger">
-                    Delete
-                  </button>
+                  <td>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleEdit(contact.id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="mx-2 btn btn-danger"
+                      variant="danger"
+                      onClick={() => handleDelete(contact.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Row, Alert, Button, Form, Container, Col } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function AddContact() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [photo, setPhoto] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +32,7 @@ function AddContact() {
         }
       );
       console.log(response);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

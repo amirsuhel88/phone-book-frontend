@@ -36,9 +36,13 @@ const contactSlice = createSlice({
         };
       }
     },
+    deleteContact: (state, action) => {
+      const id = action.payload.id;
+      state.contacts = state.contacts.filter((c) => c.id !== id);
+    },
   },
 });
 
-export const { getContact, setStatus, setError, editContact } =
+export const { getContact, setStatus, setError, editContact, deleteContact } =
   contactSlice.actions;
 export default contactSlice.reducer;
