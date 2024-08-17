@@ -8,10 +8,14 @@ function AddContact() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [photo, setPhoto] = useState(null);
+  const [status, setStatus] = useState("idle");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus("loading");
+    setError(""); // Clear previous errors
     try {
       const token = localStorage.getItem("token");
 
@@ -34,13 +38,23 @@ function AddContact() {
       console.log(response);
       navigate("/");
     } catch (error) {
+      if (error.response && error.response.data) {
+        setError(
+          error.response.data.message ||
+            "Failed to add contact. Please try again."
+        );
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
       console.log(error);
+    } finally {
+      setStatus("idle");
     }
   };
   return (
     <Container>
       <h2 className="my-4">Add Contact</h2>
-
+      {error && <Alert variant="danger">{error}</Alert>}{" "}
       <Form onSubmit={handleSubmit}>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm="2">
