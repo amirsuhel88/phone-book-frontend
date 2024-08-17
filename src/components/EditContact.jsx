@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Button, Form, Container, Col } from "react-bootstrap";
+import { Row, Button, Form, Container, Col, Alert } from "react-bootstrap";
 import axios from "axios";
 import NavigationBar from "./NavigationBar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,6 +15,7 @@ function EditContact() {
   const [phone, setPhone] = useState(contactt?.phone || "");
   const [email, setEmail] = useState(contactt?.email || "");
   const [photo, setPhoto] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function EditContact() {
       formData.append("photo", photo);
 
       const response = await axios.put(
-        "http://localhost:5000/api/contacts/" + id,
+        `http://localhost:5000/api/contacts/${id}`,
         formData,
         {
           headers: {
@@ -51,8 +52,10 @@ function EditContact() {
         })
       );
 
-      console.log(response);
-      navigate("/"); // Navigate back to contacts or another page
+      setSuccessMessage(response.data.message);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -62,6 +65,8 @@ function EditContact() {
     <Container>
       <NavigationBar />
       <h2 className="my-4">Edit Contact</h2>
+
+      {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
       <Form onSubmit={handleEdit}>
         <Form.Group as={Row} className="mb-3">

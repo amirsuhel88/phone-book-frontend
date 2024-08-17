@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setToken, setStatus, setError } from "../redux/userSlice";
 import { Alert, Button, Form, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import axios for making HTTP requests
+import axios from "axios";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -17,11 +17,11 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      dispatch(setError("Passwords do not match")); // Set error message for mismatched passwords
+      dispatch(setError("Passwords do not match"));
       return;
     }
 
-    dispatch(setStatus("loading")); // Set status to loading before making the request
+    dispatch(setStatus("loading"));
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/signup",
@@ -31,12 +31,12 @@ const Signup = () => {
           password,
         }
       );
-      dispatch(setToken(response.data.token)); // Assume response contains a token
-      dispatch(setStatus("succeeded")); // Set status to succeeded
-      navigate("/login"); // Redirect to home or another page on success
+      dispatch(setToken(response.data.token));
+      dispatch(setStatus("succeeded"));
+      navigate("/login");
     } catch (error) {
-      dispatch(setError(error.response.data.message)); // Set error message
-      dispatch(setStatus("failed")); // Set status to failed
+      dispatch(setError(error.response.data.message));
+      dispatch(setStatus("failed"));
     }
   };
 

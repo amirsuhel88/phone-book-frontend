@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Row, Alert, Button, Form, Container, Col } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +11,15 @@ function AddContact() {
   const [photo, setPhoto] = useState(null);
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("loading");
     setError(""); // Clear previous errors
+    setSuccessMessage(""); // Clear previous success messages
+
     try {
       const token = localStorage.getItem("token");
 
@@ -36,8 +39,17 @@ function AddContact() {
           },
         }
       );
-      console.log(response);
-      navigate("/");
+
+      setSuccessMessage(response.data.message);
+      setName("");
+      setPhone("");
+      setEmail("");
+      setPhoto(null);
+
+      setTimeout(() => {
+        //it will take two second to navigate to next page
+        navigate("/");
+      }, 2000);
     } catch (error) {
       if (error.response && error.response.data) {
         setError(
@@ -52,12 +64,14 @@ function AddContact() {
       setStatus("idle");
     }
   };
+
   return (
     <Container>
       <NavigationBar />
       <div className="col-6 mx-auto p-4 border border-success">
         <h2 className="my-4">Add Contact</h2>
-        {error && <Alert variant="danger">{error}</Alert>}{" "}
+        {successMessage && <Alert variant="success">{successMessage}</Alert>}
+        {error && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm="2">
